@@ -42,7 +42,17 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
                 par = par.offsetParent;
             } while( par && ( par.currentStyle.position === 'static' ) );
             if( par ) {
-                parRect = par.getBoundingClientRect();
+                //sa: updated to catch getBoundingClientRect "Unspecified Error"
+                try { 
+                    parRect = par.getBoundingClientRect();
+                } catch(e) {
+                    parRect = { 
+                        top : par.offsetTop, 
+                        left : par.offsetLeft,
+                        right : par.offsetWidth + par.offsetLeft,
+                        bottom : par.offsetHeight + par.offsetTop
+                    };
+                };
                 cs = par.currentStyle;
                 x = ( elBounds.x - parRect.left ) * logicalZoomRatio - ( parseFloat(cs.borderLeftWidth) || 0 );
                 y = ( elBounds.y - parRect.top ) * logicalZoomRatio - ( parseFloat(cs.borderTopWidth) || 0 );

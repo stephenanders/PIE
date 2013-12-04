@@ -34,11 +34,22 @@ PIE.BoundsInfo.prototype = {
     },
 
     getLiveBounds: function() {
+        //sa: updated to catch getBoundingClientRect "Unspecified Error"
         var el = this.targetElement,
-            rect = el.getBoundingClientRect(),
             isIE9 = PIE.ieDocMode === 9,
             isIE7 = PIE.ieVersion === 7,
-            width = rect.right - rect.left;
+            rect = null;
+        try { 
+            rect = el.getBoundingClientRect();
+        } catch(e) {
+            rect = { 
+                top : el.offsetTop, 
+                left : el.offsetLeft,
+                right : el.offsetWidth + el.offsetLeft,
+                bottom : el.offsetHeight + el.offsetTop
+            };
+        };
+        var width = rect.right - rect.left;
         return {
             x: rect.left,
             y: rect.top,
