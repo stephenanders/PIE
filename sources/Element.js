@@ -76,7 +76,8 @@ PIE.Element = (function() {
                 var docEl,
                     bounds,
                     ieDocMode = PIE.ieDocMode,
-                    cs = el.currentStyle,
+                    //sa: catch when currentStyle is null
+                    cs = el.currentStyle || el.style,
                     lazy = cs.getAttribute( lazyInitCssProp ) === 'true',
                     trackActive = cs.getAttribute( trackActiveCssProp ) !== 'false',
                     trackHover = cs.getAttribute( trackHoverCssProp ) !== 'false';

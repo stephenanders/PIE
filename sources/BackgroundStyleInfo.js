@@ -64,7 +64,8 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
      */
     parseCss: function( css ) {
         var el = this.targetElement,
-            cs = el.currentStyle,
+            //sa: catch when currentStyle is null
+            cs = el.currentStyle || el.style,
             tokenizer, token, image,
             tok_type = PIE.Tokenizer.Type,
             type_operator = tok_type.OPERATOR,
@@ -358,7 +359,8 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
     getCss: PIE.StyleInfoBase.cacheWhenLocked( function() {
         return this.getCss3() ||
                this.withActualBg( function() {
-                   var cs = this.targetElement.currentStyle,
+                   //sa: catch when currentStyle is null
+                   var cs = this.targetElement.currentStyle || this.targetElement.style,
                        propNames = this.propertyNames;
                    return cs[propNames.COLOR] + ' ' + cs[propNames.IMAGE] + ' ' + cs[propNames.REPEAT] + ' ' +
                    cs[propNames.POSITION + 'X'] + ' ' + cs[propNames.POSITION + 'Y'];
@@ -367,7 +369,12 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
 
     getCss3: PIE.StyleInfoBase.cacheWhenLocked( function() {
         var el = this.targetElement;
-        return el.style[ this.styleProperty ] || el.currentStyle.getAttribute( this.cssProperty );
+        //sa: updated to catch when el.currentStyle is null
+        if (el.currentStyle) {
+            return el.style[this.styleProperty] || el.currentStyle.getAttribute(this.cssProperty);
+        } else {
+            return el.style[this.styleProperty];
+        }
     } ),
 
 
@@ -411,7 +418,12 @@ PIE.BackgroundStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
         var val = 0, el;
         if( PIE.ieVersion < 7 ) {
             el = this.targetElement;
-            val = ( '' + ( el.style[ PIE.STYLE_PREFIX + 'PngFix' ] || el.currentStyle.getAttribute( PIE.CSS_PREFIX + 'png-fix' ) ) === 'true' );
+            //sa: updated to catch when el.currentStyle is null
+            if (el.currentStyle) {
+                val = ( '' + ( el.style[ PIE.STYLE_PREFIX + 'PngFix' ] || el.currentStyle.getAttribute( PIE.CSS_PREFIX + 'png-fix' ) ) === 'true' );
+            } else {
+                val = ( '' + ( el.style[ PIE.STYLE_PREFIX + 'PngFix' ] ) === 'true' );
+            }
         }
         return val;
     },

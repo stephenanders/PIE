@@ -23,7 +23,8 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
 
         this.withActualBorder( function() {
             var el = this.targetElement,
-                cs = el.currentStyle,
+                //sa: catch when currentStyle is null
+                cs = el.currentStyle || el.style,
                 i = 0,
                 style, color, width, lastStyle, lastColor, lastWidth, side, ltr;
             for( ; i < 4; i++ ) {
@@ -64,7 +65,8 @@ PIE.BorderStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
 
     getCss: PIE.StyleInfoBase.cacheWhenLocked( function() {
         var el = this.targetElement,
-            cs = el.currentStyle,
+            //sa: catch when currentStyle is null
+            cs = el.currentStyle || el.style,
             css;
 
         // Don't redraw or hide borders for cells in border-collapse:collapse tables

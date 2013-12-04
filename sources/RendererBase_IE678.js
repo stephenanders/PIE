@@ -198,7 +198,8 @@ PIE.merge(PIE.RendererBase, {
      */
     hideBorder: function() {
         var el = this.targetElement,
-            cs = el.currentStyle,
+            //sa: catch when currentStyle is null
+            cs = el.currentStyle || el.style,
             rs = el.runtimeStyle,
             tag = el.tagName,
             isIE6 = PIE.ieVersion === 6,

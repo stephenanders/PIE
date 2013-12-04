@@ -8,7 +8,8 @@ PIE.VisibilityStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
     getCss: PIE.StyleInfoBase.cacheWhenLocked( function() {
         var el = this.targetElement,
             rs = el.runtimeStyle,
-            cs = el.currentStyle,
+            //sa: catch when currentStyle is null
+            cs = el.currentStyle || el.style,
             rsVis = rs.visibility,
             ret;
         rs.visibility = '';

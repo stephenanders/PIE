@@ -21,7 +21,8 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
             par = el,
             docEl,
             parRect,
-            tgtCS = el.currentStyle,
+            //sa: catch when currentStyle is null
+            tgtCS = el.currentStyle || el.style,
             tgtPos = tgtCS.position,
             boxPos,
             cs,
@@ -98,7 +99,8 @@ PIE.RootRenderer = PIE.RendererBase.newRenderer( {
      * Determine the target z-index for the box el
      */
     getBoxZIndex: function() {
-        var cs = this.targetElement.currentStyle;
+        //sa: catch when currentStyle is null
+        var cs = this.targetElement.currentStyle || this.targetElement.style;
         return cs.position === 'static' ? '-1' : cs.zIndex;
     },
 

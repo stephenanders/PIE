@@ -27,7 +27,8 @@ PIE.PaddingStyleInfo = PIE.StyleInfoBase.newStyleInfo( {
             rsPadding = rs.padding,
             padding;
         if( rsPadding ) rs.padding = '';
-        padding = el.currentStyle.padding;
+        //sa: check for currentStyle == null
+        padding = el.currentStyle ? el.currentStyle.padding : el.style.padding;
         if( rsPadding ) rs.padding = rsPadding;
         return padding;
     } )
